@@ -117,7 +117,7 @@ class Device extends BaseModel
 
     public function pollerTarget(): string
     {
-        return $this->overwrite_ip ?: $this->ip ?: $this->hostname ?: '';
+        return ($this->overwrite_ip ?: $this->hostname) ?: '';
     }
 
     public function ipFamily(): AddressFamily
@@ -1178,6 +1178,14 @@ class Device extends BaseModel
     public function services(): HasMany
     {
         return $this->hasMany(Service::class, 'device_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\DeviceStats, $this>
+     */
+    public function stats(): HasOne
+    {
+        return $this->hasOne(DeviceStats::class, 'device_id');
     }
 
     /**
